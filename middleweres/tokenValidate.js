@@ -7,7 +7,7 @@ export const tokenValidate =async(req,res,next) => {
         res.status(401).send("token não  encontrado")
         return
     }
-    token = token.replaceAll("Bearer ","")
+    token = token.replace("Bearer ","")
     console.log(token)
     try {
         const  tokenSession = await db.query(tokenValidation,[token])
