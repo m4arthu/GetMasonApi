@@ -1,4 +1,4 @@
-import { loginData, registerQuery, userValidation, Login, existSession, tokenValidation, postServiceQuery, getServicesQuery, getMyServicesQuery, putMyServicesQuery } from "../repositorys/querys.db.js"
+import { loginData, registerQuery, userValidation, Login, existSession, tokenValidation, postServiceQuery, getServicesQuery, getMyServicesQuery, putMyServicesQuery, serviceQuery, deleteServiceQuery } from "../repositorys/querys.db.js"
 import { db } from "../database/database.connection.js"
 import { v4 as uuid } from "uuid"
 export const register = async (req, res) => {
@@ -106,5 +106,26 @@ export const putMyServices = async (req, res) => {
   } catch (e) {
     console.log(e)
     res.status(500).send("erro na  requisição  ao  banco")
+  }
+}
+
+export const  deleteService = async (req,res) => {
+  let  token  = req.headers.authorization
+  let id = req.params.id
+  token = token.replace("Bearer ","")
+  console.log(token)
+  try {
+    const userDataSession = await db.query(tokenValidation,[token])
+    const service = await db.query(serviceQuery,[id])
+    if(userDataSession.rows[0].userId === service.rows[0].userId){
+      await db.query(deleteServiceQuery,[id])
+      res.sendStatus(200)
+      return
+    } else {
+      res.status(401).send("Não  é possivel  deletar serviços  de  outro  usuário!!")
+    }
+  } catch(e){
+    console.log(e)
+    res.status(500).send("erro no  servidor tente mais tarde !!")
   }
 }

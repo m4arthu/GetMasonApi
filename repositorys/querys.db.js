@@ -13,3 +13,5 @@ values ($1,$2,$3,$4,$5,$6,$7)`
 export const getServicesQuery = "select * from  services"
 export const getMyServicesQuery  = `select * from services where "userId" = $1 `
 export const putMyServicesQuery = `update services set avaible = $1 where id=$2`
+export  const deleteServiceQuery = `delete from services where id = $1`
+export const serviceQuery = "select * from services  where id=$1"
