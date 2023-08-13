@@ -16,7 +16,7 @@ export const loginSchema  = Joi.object({
 export const serviceSchema = Joi.object({
     imageUrl: Joi.string().required(),
     title: Joi.string().required(),
-    price: Joi.number().integer().required(),
+    price: Joi.number().integer().positive().required(),
     description: Joi.string().required(),
     avaible: Joi.boolean().required(),
     phone : Joi.number().required()
